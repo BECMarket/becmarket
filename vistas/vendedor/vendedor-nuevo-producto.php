@@ -7,9 +7,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Nuevo Producto | BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
 <body style="background-image: url(../../img/fondo.jpg);">
     <?php if (isset($_SESSION['user'])) { ?>
@@ -54,7 +55,7 @@
             <div class="container mt-3">
                 <a href="vendedor-productos.php"><i class="fas fa-chevron-circle-left fs-1 text-dark ms-5 mb-3"></i></a>
                 <div class="border bg-light border-2 border-dark rounded mx-auto pb-3" style="max-width: 600px;">
-                    <form action="../../controladores/NuevoProducto.php" method="POST">
+                    <form action="../../controladores/NuevoProducto.php" method="POST" enctype="multipart/form-data">
                         <h5 class="h5 text-center mt-3 mb-4">NUEVO PRODUCTO</h5>
                         <div class="row">
                             <div class="col-md-6">

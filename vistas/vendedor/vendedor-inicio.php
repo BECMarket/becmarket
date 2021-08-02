@@ -6,9 +6,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio | BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
 
 <body style="background-image: url(../../img/fondo.jpg);">
@@ -68,7 +69,7 @@
                                 <!--VISTA >LG -->
                                 <div class="d-none d-md-block">
                                     <div class="row mt-2">
-                                        <?php if($_SESSION['negocio']['abierto_cerrado'] == 'abierto'){?>
+                                        <?php if ($_SESSION['negocio']['abierto_cerrado'] == 'abierto') { ?>
                                             <div class="col-1  pb-3">
                                                 <i class="fas fa-unlock"></i>
                                             </div>
@@ -80,7 +81,7 @@
                                                     <button name="cambiar" class="btn link-danger btn-sm text-decoration-underline" value="<?= $_SESSION['negocio']['abierto_cerrado'] ?>">CERRAR ATENCIÓN</button>
                                                 </form>
                                             </div>
-                                        <?php }else{ ?>
+                                        <?php } else { ?>
                                             <div class="col-1  pb-3">
                                                 <i class="fas fa-lock"></i>
                                             </div>
@@ -93,7 +94,7 @@
                                                 </form>
                                             </div>
                                         <?php } ?>
-                                        
+
                                         <div class="col-1 pb-3">
                                             <i class="fas fa-cash-register fs-5"></i>
                                         </div>
@@ -123,9 +124,9 @@
                                         </div>
                                         <div class="col-5">
                                             Horario de atención <br>
-                                            <?php if($_SESSION['negocio']['diasAtencion'] == '0'){ ?>
+                                            <?php if ($_SESSION['negocio']['diasAtencion'] == '0') { ?>
                                                 <span class="fw-bold">Sin asignar</span>
-                                            <?php }else{ ?>
+                                            <?php } else { ?>
                                                 <span class="fw-bold"><?= $_SESSION['negocio']['diasAtencion'] ?></span>
                                                 <span class="fw-bold">desde las</span>
                                                 <span class="fw-bold"><?= $_SESSION['negocio']['horarioAtencion'] ?></span>
@@ -137,11 +138,11 @@
                                         </div>
                                         <div class="col-5">
                                             Costo envío <br>
-                                            <?php if($_SESSION['negocio']['costoEnvio'] == '0'){ ?>
+                                            <?php if ($_SESSION['negocio']['costoEnvio'] == '0') { ?>
                                                 <span class="fw-bold">Gratis</span>
-                                            <?php }else{ ?>
+                                            <?php } else { ?>
                                                 <span class="fw-bold">$<?= $_SESSION['negocio']['costoEnvio'] ?></span>
-                                            <?php } ?>                                           
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +151,7 @@
                                 <!-- VISTA <LG -->
                                 <div class="d-md-none">
                                     <div class="row mt-2">
-                                        <?php if($_SESSION['negocio']['abierto_cerrado'] == 'abierto'){ ?>
+                                        <?php if ($_SESSION['negocio']['abierto_cerrado'] == 'abierto') { ?>
                                             <div class="col-12 text-center">
                                                 <i class="fas fa-unlock"></i>
                                                 <span class="text-success"><?= strtoupper($_SESSION['negocio']['abierto_cerrado']) ?></span>
@@ -160,7 +161,7 @@
                                                     <button name="cambiar" class="btn link-danger btn-sm text-decoration-underline" value="<?= $_SESSION['negocio']['rut_negocio'] ?>">CERRAR ATENCIÓN</button>
                                                 </form>
                                             </div>
-                                        <?php }else{ ?>
+                                        <?php } else { ?>
                                             <div class="col-12 text-center">
                                                 <i class="fas fa-lock"></i>
                                                 <span class="text-danger"><?= strtoupper($_SESSION['negocio']['abierto_cerrado']) ?></span>
@@ -171,7 +172,7 @@
                                                 </form>
                                             </div>
                                         <?php } ?>
-                                        
+
                                         <div class="col-12 text-center pb-3">
                                             <i class="fas fa-cash-register fs-5"></i>
                                             <span><?= $_SESSION['negocio']['nombre'] ?></span>
@@ -210,7 +211,8 @@
                     <!-- DATOS NEGOCIO-->
                     <!-- EDITAR DATOS -->
                     <div class="col-xl-6 border p-3 border-dark rounded mb-4 bg-light" style="max-width: 500px;" id="app">
-                        <form  @submit.prevent="editar">
+                        <form @submit.prevent="editar">
+                            <input type="hidden" id="session_id" name="session_id" value="<?= session_id() ?>">
                             <div class="row mt-2">
                                 <div class="col-md-10 mx-auto">
                                     <label for="horario" class="form-label fw-bold">Horario de atención:</label>
@@ -236,7 +238,7 @@
                                             <option value="16:00">16:00</option>
                                             <option value="17:00">17:00</option>
                                             <option value="18:00">18:00</option>
-                                        </select>   
+                                        </select>
                                     </div>
                                     <div class="col-md-6 d-flex">
                                         <label for="hasta" class="form-label me-2">Hasta:</label>
@@ -253,7 +255,7 @@
                                             <option value="22:00">22:00</option>
                                             <option value="23:00">23:00</option>
                                             <option value="00:00">00:00</option>
-                                        </select> 
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-10 mx-auto mt-3">
@@ -278,9 +280,10 @@
         <?php } else { ?>
             <?php header("Location: ../cliente/cliente-inicio.php"); ?>
         <?php } ?>
-    <?php } else { header("Location: ../../login.php"); ?>     
+    <?php } else {
+        header("Location: ../../login.php"); ?>
     <?php } ?>
-    
+
     <?php include_once '../../footer.php' ?>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>

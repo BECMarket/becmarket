@@ -30,7 +30,7 @@ class ControlLogin{
         
         //if($_SESSION['user']['estado']==1){
             if($_SESSION['user']['tipo'] == 1){
-                header("Location: ../vistas/cliente/cliente-inicio.php");
+                header("Location: ../vistas/cliente/cliente-negocio.php");
             }else if($_SESSION['user']['tipo']==2){
                 $codeUser = $_SESSION['user']['codigo_usuario'];
                 $negocio = new Negocio();

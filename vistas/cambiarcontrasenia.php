@@ -4,7 +4,7 @@
 
 <head>
     <?php include_once '../header.php' ?>
-    <title>Registrarse | BEC Market</title>
+    <title>Cambiar Contraseña | BEC Market</title>
 </head>
 <body style="background-image: url(../img/fondo.jpg);"> 
     <?php if(isset($_SESSION['user'])){ ?>

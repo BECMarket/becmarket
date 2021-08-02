@@ -7,6 +7,7 @@ require_once("../../modelo/Negocio.php");
 $model = new Negocio();
 $negocios = $model->getAllNegocio();
 unset($_SESSION['ne']);
+unset($_SESSION['newPedido']);
 
 ?>
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ unset($_SESSION['ne']);
 <head>
     <?php include_once '../../header.php' ?>
     <title>Negocios | BEC Market</title>
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
 
 <body style="background-image: url(../../img/fondo.jpg);">
@@ -85,7 +87,7 @@ unset($_SESSION['ne']);
                                     </select>
                                 </div>
                                 <div class="p-2 bd-highlight">
-                                    <button type="button" class="btn btn-dark px-4">FILTRAR</button>
+                                    <button class="btn btn-dark px-4">FILTRAR</button>
                                 </div>
                             </div>
                         </form>
@@ -93,15 +95,15 @@ unset($_SESSION['ne']);
                 </div>
                 <p class="text-danger text-center bg-light">
                     <?php
-                        if (isset($_SESSION['error'])) {
-                            echo $_SESSION['error'];
-                            unset($_SESSION['error']);
-                        }
+                    if (isset($_SESSION['error'])) {
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                    }
                     ?>
                 </p>
             </div>
             <!-- BUSQUEDA -->
-            
+
             <!-- CONTENIDO  -->
             <div class="container mt-4">
                 <form action="../../controladores/VerNegocio.php" method="POST">
@@ -146,44 +148,46 @@ unset($_SESSION['ne']);
                     <?php } else {
                         $nombre = $_SESSION['buscar'];
                         $buscar = $model->buscarNombre($nombre);
-                        if($buscar == null){
+                        if ($buscar == null) {
                             $buscar = $model->tipoNegocio($nombre);
                         }
                     ?>
                         <?php foreach ($buscar as $b) { ?>
-                            <div class="row justify-content-center mx-2">
-                                <div class="bg-light col-lg-7 border p-3 border-dark rounded-3 mb-3 d-flex align-items-center" style="max-width: 700px;">
-                                    <img src="<?= $b['imagen'] ?>" class="card-img py-2" alt="" style="max-width: 140px;">
-                                    <div class="container">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-6">
-                                                <span class="h5 fw-bold"> <?= $b['nombre'] ?></span>
+                            <?php if ($b['abierto_cerrado'] == 'abierto') { ?>
+                                <div class="row justify-content-center mx-2">
+                                    <div class="bg-light col-lg-7 border p-3 border-dark rounded-3 mb-3 d-flex align-items-center" style="max-width: 700px;">
+                                        <img src="<?= $b['imagen'] ?>" class="card-img py-2" alt="" style="max-width: 140px;">
+                                        <div class="container">
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-6">
+                                                    <span class="h5 fw-bold"> <?= $b['nombre'] ?></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <span><?= $b['direccion'] ?></span>
-                                        <br>
-                                        <span class="text-success">Abierto desde las
-                                            <?= $b['horarioAtencion'] ?>
-                                            hrs.
-                                        </span>
-                                        <div class="row mt-2">
-                                            <div class="col-lg-4">
-                                                <span>Tiempo de espera</span>
-                                                <br>
-                                                <span class="fw-bold">30-50 mins</span>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <span>Costo de envío</span>
-                                                <br>
-                                                <span class="fw-bold">$<?= $b['costoEnvio'] ?></span>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <button name="rutNegocio" class="btn btn-dark mt-2" value="<?=$n['rut_negocio'] ?>">Ver negocio</button>
+                                            <span><?= $b['direccion'] ?></span>
+                                            <br>
+                                            <span class="text-success">Abierto desde las
+                                                <?= $b['horarioAtencion'] ?>
+                                                hrs.
+                                            </span>
+                                            <div class="row mt-2">
+                                                <div class="col-lg-4">
+                                                    <span>Tiempo de espera</span>
+                                                    <br>
+                                                    <span class="fw-bold">30-50 mins</span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <span>Costo de envío</span>
+                                                    <br>
+                                                    <span class="fw-bold">$<?= $b['costoEnvio'] ?></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <button name="rutNegocio" class="btn btn-dark mt-2" value="<?= $n['rut_negocio'] ?>">Ver negocio</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                         <?php }
                         unset($_SESSION['buscar']); ?>
                     <?php } ?>

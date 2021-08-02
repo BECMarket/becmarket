@@ -4,9 +4,10 @@
 <head>
     <?php include_once 'header.php' ?>
     <title>Registrarse | BEC Market</title>
+    <link rel="shortcut icon" href="img/logito.png" type="image/x-icon">
 </head>
 
-<body>
+<body style="background-image: url(img/fondo.jpg);">
     <?php session_start();
     if (isset($_SESSION['user'])) {
         if ($_SESSION['user']['tipo'] == 1) {
@@ -48,6 +49,7 @@
                 </div>
 
                 <div class="col-12 px-3 mt-3">
+                    <p class="text-danger text-center">{{mensaje}}</p>
                     <p class="lead text-decoration-underline text-center">
                         Al registrarte aceptas los Términos & Condiciones y la Política de Privacidad
                     </p>

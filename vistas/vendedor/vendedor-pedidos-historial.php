@@ -1,24 +1,31 @@
-<?php 
-    session_start(); 
-    use modelo\Pedidos as Pedidos;
-    require_once("../../modelo/Pedidos.php");
-    use modelo\Usuario as Usuario;
-    require_once("../../modelo/Usuario.php");
-    $negocio = $_SESSION['negocio']['rut_negocio'];
-    $modelo = new Pedidos();
-    $pedidos = $modelo->historialNegocio($negocio);
-    unset($_SESSION['pedido']);
+<?php
+session_start();
+
+use modelo\Pedidos as Pedidos;
+
+require_once("../../modelo/Pedidos.php");
+
+use modelo\Usuario as Usuario;
+
+require_once("../../modelo/Usuario.php");
+$negocio = $_SESSION['negocio']['rut_negocio'];
+$modelo = new Pedidos();
+$pedidos = $modelo->historialNegocio($negocio);
+unset($_SESSION['pedido']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Historial Pedidos | BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
+
 <body style="background-image: url(../../img/fondo.jpg);">
     <?php if (isset($_SESSION['user'])) { ?>
         <?php if ($_SESSION['user']['tipo'] == 2) { ?>
@@ -53,14 +60,14 @@
                 <nav class="nav nav-pills flex-column flex-sm-row mt-5 mx-auto" style="max-width: 500px;">
                     <a class="flex-sm-fill text-sm-center nav-link link-dark" href="vendedor-inicio.php" style="background-color: #adb5bd;">MI NEGOCIO</a>
                     <a class="flex-sm-fill text-sm-center nav-link link-dark" style="background-color: #adb5bd;" href="vendedor-productos.php">MIS PRODUCTOS</a>
-                    <a class="flex-sm-fill text-sm-center nav-link bg-dark active" href="vendedor-pedidos.php" >PEDIDOS</a>
+                    <a class="flex-sm-fill text-sm-center nav-link bg-dark active" href="vendedor-pedidos.php">PEDIDOS</a>
                 </nav>
             </div>
             <!-- BARRA SECUNDARIA -->
 
             <!-- TERCERA BARRA -->
             <div class="container">
-                <nav class="nav nav-pills flex-column flex-sm-row mt-5 mx-auto" style="max-width: 400px;">            
+                <nav class="nav nav-pills flex-column flex-sm-row mt-5 mx-auto" style="max-width: 400px;">
                     <a class="flex-sm-fill text-sm-center nav-link link-dark small" href="vendedor-pedidos.php" style="background-color: #adb5bd;">ACEPTADOS</a>
                     <a class="flex-sm-fill text-sm-center nav-link link-dark small" href="vendedor-pedidos-sinaceptar.php" style="background-color: #adb5bd;">SIN ACEPTAR</a>
                     <a class="flex-sm-fill text-sm-center nav-link bg-dark active  small" href="vendedor-pedidos-historial.php" style="background-color: #adb5bd;">HISTORIAL</a>
@@ -70,106 +77,149 @@
 
             <!-- BUSQUEDA -->
             <div class="container mt-4">
-                <div class="row justify-content-end">
-                    <div class="col-sm-6">
-                        <div class="d-flex flex-row bd-highlight justify-content-center">
-                            <div class="p-2 bd-highlight">
-                                <input type="date" class="p-2">
+                <form action="../../controladores/BuscarPedidoFecha.php" method="POST">
+                    <div class="row justify-content-end">
+                        <div class="col-sm-6">
+                            <div class="d-flex flex-row bd-highlight justify-content-center">
+                                <div class="p-2 bd-highlight">
+                                    <input name="fecha" type="date" class="p-2">
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button class="btn btn-dark px-4">BUSCAR</button>
+                                </div>
                             </div>
-                            <div class="p-2 bd-highlight">
-                                <button type="button" class="btn btn-dark px-4">BUSCAR</button>
-                            </div>
+                            <p class="text-danger text-center">
+                                <?php
+                                if (isset($_SESSION['error'])) {
+                                    echo $_SESSION['error'];
+                                    unset($_SESSION['error']);
+                                }
+                                ?>
+                            </p>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <!-- BUSQUEDA -->
-            
-        <form action="../../controladores/VerDetalle.php" method="POST">
-            <!-- TABLA PEDIDOS -->
-            <div class="container mt-3 d-none d-lg-block" id="app">
-                <table class="bg-light table table-hover table-bordered text-center mx-auto align-middle" style="max-width: 1100px;">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Fecha y hora</th>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Detalles</th>
-                            <th scope="col">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($pedidos as $p){ 
+
+            <form action="../../controladores/VerDetalle.php" method="POST">
+                <!-- TABLA PEDIDOS -->
+                <div class="container mt-3 d-none d-lg-block" id="app">
+                    <table class="bg-light table table-hover table-bordered text-center mx-auto align-middle" style="max-width: 1100px;">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Detalles</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!isset($_SESSION['buscarfecha'])) { ?>
+                                <?php foreach ($pedidos as $p) {
+                                    $c =  new Usuario();
+                                    $codigoC = $p['compradorfk'];
+                                    $arr = $c->actualizar($codigoC);
+                                    $cliente = $arr[0];
+                                ?>
+                                    <tr>
+                                        <th>
+                                            <span><?= $p['fecha'] ?></span>
+                                            <span><?= $p['hora'] ?></span>
+                                        </th>
+                                        <td>
+                                            <span><?= $cliente['nombre'] ?></span>
+                                            <span><?= $cliente['apellidos'] ?></span>
+                                        </td>
+                                        <td>$<?= $p['precio_Total'] ?></td>
+                                        <form action="../../controladores/VerDetalle.php" method="POST">
+                                            <td><button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $p['codigo_pedido'] ?>">Ver detalles</button></td>
+                                        </form>
+                                        <?php if ($p['estado'] == 'entregado') { ?>
+                                            <td class="text-success"><?= ucwords($p['estado']) ?></td>
+                                        <?php } else { ?>
+                                            <td class="text-danger"><?= ucwords($p['estado']) ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                <?php } ?>
+                                <?php } else {
+                                $fecha = $_SESSION['buscarfecha'];
+                                $buscar = $modelo->buscarPorFecha($fecha, $negocio);
+                                foreach ($buscar as $b) {
+                                    $c =  new Usuario();
+                                    $codigoC = $b['compradorfk'];
+                                    $arr = $c->actualizar($codigoC);
+                                    $cliente = $arr[0];
+                                ?>
+                                    <tr>
+                                        <th>
+                                            <span><?= $b['fecha'] ?></span>
+                                            <span><?= $b['hora'] ?></span>
+                                        </th>
+                                        <td>
+                                            <span><?= $cliente['nombre'] ?></span>
+                                            <span><?= $cliente['apellidos'] ?></span>
+                                        </td>
+                                        <td>$<?= $b['precio_Total'] ?></td>
+                                        <form action="../../controladores/VerDetalle.php" method="POST">
+                                            <td><button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $b['codigo_pedido'] ?>">Ver detalles</button></td>
+                                        </form>
+                                        <?php if ($b['estado'] == 'rechazado') { ?>
+                                            <td class="text-danger"><?= ucwords($b['estado']) ?></td>
+                                        <?php } else { ?>
+                                            <td class="text-success"><?= ucwords($b['estado']) ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                <?php } ?>
+                                <?php unset($_SESSION['buscarfecha']); ?>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- TABLA PEDIDOS -->
+
+                <!-- PEDIDOS PANTALLA CHICA -->
+                <div class="container mt-5 d-lg-none">
+                    <div class="row justify-content-center mx-2">
+                        <?php foreach ($pedidos as $p) {
                             $c =  new Usuario();
                             $codigoC = $p['compradorfk'];
                             $arr = $c->actualizar($codigoC);
                             $cliente = $arr[0];
-                            ?>
-                            <tr>
-                                <th>
-                                    <span><?= $p['fecha'] ?></span>
-                                    <span><?= $p['hora'] ?></span>
-                                </th>
-                                <td>
-                                    <span><?= $cliente['nombre'] ?></span>
-                                    <span><?= $cliente['apellidos'] ?></span>
-                                </td>
-                                <td>$<?= $p['precio_Total'] ?></td>
-                                <form action="../../controladores/VerDetalle.php" method="POST">  
-                                    <td><button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $p['codigo_pedido'] ?>">Ver detalles</button></td>
-                                </form>
-                                <?php if($p['estado']=='entregado'){?>
-                                    <td class="text-success"><?= ucwords($p['estado']) ?></td>
-                                <?php }else{ ?>
-                                    <td class="text-danger"><?= ucwords($p['estado']) ?></td>
-                                <?php } ?>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>    
-            </div>  
-            <!-- TABLA PEDIDOS -->
-
-            <!-- PEDIDOS PANTALLA CHICA -->
-            <div class="container mt-5 d-lg-none">
-                <div class="row justify-content-center mx-2">
-                    <?php foreach($pedidos as $p){ 
-                        $c =  new Usuario();
-                        $codigoC = $p['compradorfk'];
-                        $arr = $c->actualizar($codigoC);
-                        $cliente = $arr[0];
                         ?>
-                        <div class="col-lg-7 bg-light border p-3 border-dark rounded-3 mb-3 d-flex align-items-center" style="max-width: 300px;">
-                            <div class="ps-3">
-                                <p class="h5 fw-bold">
-                                    <span><?= $cliente['nombre'] ?></span>
-                                    <span><?= $cliente['apellidos'] ?></span>
-                                </p>
-                                <span>
-                                    <?= $p['fecha'] ?> 
-                                    <?= $p['hora'] ?>
-                                </span> 
-                                <br>
-                                <span>$<?= $p['precio_Total'] ?></span> <br>
-                                <?php if($p['estado']=='entregado'){?>
-                                    <span class="text-success"><?= ucwords($p['estado']) ?></span>
-                                <?php }else{ ?>
-                                    <span class="text-danger"><?= ucwords($p['estado']) ?></span>
-                                <?php } ?>
-                                <br>
-                                <button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $p['codigo_pedido'] ?>">Ver detalles</button>
+                            <div class="col-lg-7 bg-light border p-3 border-dark rounded-3 mb-3 d-flex align-items-center" style="max-width: 300px;">
+                                <div class="ps-3">
+                                    <p class="h5 fw-bold">
+                                        <span><?= $cliente['nombre'] ?></span>
+                                        <span><?= $cliente['apellidos'] ?></span>
+                                    </p>
+                                    <span>
+                                        <?= $p['fecha'] ?>
+                                        <?= $p['hora'] ?>
+                                    </span>
+                                    <br>
+                                    <span>$<?= $p['precio_Total'] ?></span> <br>
+                                    <?php if ($p['estado'] == 'entregado') { ?>
+                                        <span class="text-success"><?= ucwords($p['estado']) ?></span>
+                                    <?php } else { ?>
+                                        <span class="text-danger"><?= ucwords($p['estado']) ?></span>
+                                    <?php } ?>
+                                    <br>
+                                    <button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $p['codigo_pedido'] ?>">Ver detalles</button>
+                                </div>
                             </div>
-                        </div>
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
                 </div>
-            </div>
-            <!-- PEDIDOS PANTALLA CHICA -->
-        </form>
-        
+                <!-- PEDIDOS PANTALLA CHICA -->
+            </form>
+
         <?php } else { ?>
             <?php header("Location: ../cliente/cliente-inicio.php"); ?>
         <?php } ?>
-    <?php } else { header("Location: ../../login.php"); ?>     
+    <?php } else {
+        header("Location: ../../login.php"); ?>
     <?php } ?>
 
     <?php include_once '../../footer.php' ?>
@@ -178,4 +228,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/40e29f2951.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

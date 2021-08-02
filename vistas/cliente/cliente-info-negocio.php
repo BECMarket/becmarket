@@ -6,6 +6,7 @@
 <head>
     <?php include_once '../../header.php' ?>
     <title>Información | BEC Market</title>
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
 <body style="background-image: url(../../img/fondo.jpg);">
     <?php if (isset($_SESSION['user'])) { ?>

@@ -45,10 +45,10 @@ new Vue({
                     method:"post",
                     body:form,
                 });
-                const resp = await res.text();
+                const resp = await res.json();
                 console.log(resp);                
                 if (resp.msg == "si") {
-                    window.location.href=this.url+'revision.html';
+                    window.location.href=this.url+'controladores/PhpMailer.php';
                 }else{
                     if(resp.msg == "vendedor"){
                         this.mensaje = "Su rut o email ya se encuentran registrados";

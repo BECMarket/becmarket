@@ -1,26 +1,31 @@
-<?php 
-    session_start(); 
-    use modelo\Producto as Producto;
-    require_once("../../modelo/Producto.php");
-    $rutN = $_SESSION['ne']['rut_negocio'];
-    $model = new Producto();
-    $productos = $model->buscarProductos($rutN);
-    #unset($_SESSION['newPedido']);
+<?php
+session_start();
+
+use modelo\Producto as Producto;
+
+require_once("../../modelo/Producto.php");
+$rutN = $_SESSION['ne']['rut_negocio'];
+$model = new Producto();
+$productos = $model->buscarProductos($rutN);
+#unset($_SESSION['newPedido']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Negocio | BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
+
 <body style="background-image: url(../../img/fondo.jpg);">
     <?php if (isset($_SESSION['user'])) { ?>
         <?php if ($_SESSION['user']['tipo'] == 1) { ?>
-        <!-- BARRA DE NAVEGACION -->
+            <!-- BARRA DE NAVEGACION -->
             <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-5">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
@@ -48,7 +53,7 @@
 
             <!-- BARRA SECUNDARIA -->
             <div class="container">
-                <nav class="nav nav-pills flex-column flex-sm-row mt-5 mx-auto" style="max-width: 500px;">            
+                <nav class="nav nav-pills flex-column flex-sm-row mt-5 mx-auto" style="max-width: 500px;">
                     <a class="flex-sm-fill text-sm-center nav-link link-dark" href="cliente-inicio.php" style="background-color: #adb5bd;">POPULARES</a>
                     <a class="flex-sm-fill text-sm-center nav-link bg-dark active" aria-current="page" href="cliente-negocio.php">NEGOCIOS</a>
                     <a class="flex-sm-fill text-sm-center nav-link link-dark" href="cliente-mispedidos.php" style="background-color: #adb5bd;">MIS PEDIDOS</a>
@@ -125,19 +130,26 @@
                                 <?php if (isset($_SESSION['newPedido'])) {
                                     $count = count($_SESSION['newPedido']);
                                     $total = 0;
-                                    for ($i=0; $i < $count ; $i++) { 
+                                    for ($i = 0; $i < $count; $i++) {
                                         $prd = $_SESSION['newPedido'][$i]['codigo'];
                                         $a = $model->buscarCodigo($prd);
                                         $aw = $a[0];
                                         $qty = $_SESSION['newPedido'][$i]['cantidad'];
                                         $prc = $_SESSION['newPedido'][$i]['precio'];
                                         $total = $total + ($qty * $prc);
-                                        ?>
-                                        <div class="col-3 text-end">
+                                ?>
+                                        <div class="col-3 text-end p-2">
                                             <span><?= $_SESSION['newPedido'][$i]['cantidad'] ?></span>
                                         </div>
-                                        <div class="col-9">
+                                        <div class="col-6 p-2">
                                             <span><?= $aw['nombre'] ?></span>
+                                        </div>
+                                        <div class="col-3 text-center p-2">
+                                            <form action="../../controladores/EliminarPedido.php" method="POST">
+                                                <button class="btn btn-danger" name="eliminar" value="<?= $_SESSION['newPedido'][$i]['codigo'] ?>">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     <?php } ?>
                                     <div class="row mt-3">
@@ -154,38 +166,38 @@
                                             <span>$<?= $_SESSION['ne']['costoEnvio'] + $total ?></span>
                                         </div>
                                     </div>
-                                    
+
                                     <p class="text-center mt-3">
                                         <a href="cliente-realizar-pedido.php" class="btn btn-dark btn-sm">Realizar Pedido</a>
                                     </p>
                                 <?php } ?>
                             </div>
-                            
-                           
-                            
+
+
+
                         </div>
                     </div>
                     <div class="col-lg-8">
                         <p class="text-center fw-bold h5 mt-3 mb-4 bg-light">PRODUCTOS</p>
                         <div class="row d-flex justify-content-center justify-content-lg-evenly">
-                            <?php foreach($productos as $p){ ?>
+                            <?php foreach ($productos as $p) { ?>
                                 <div class="bg-light col-xxl-5 d-flex align-items-center border p-3 border-dark rounded-3 mb-5" style="max-width: 500px;">
                                     <img src="<?= $p['imagen'] ?>" class="card-img py-2" alt="" style="max-width: 140px;">
                                     <div class="ps-3">
                                         <p class="h5 fw-bold"><?= $p['nombre'] ?></p>
                                         <p><?= $p['descripcion'] ?></p>
                                         <p class="fw-bold">$<?= $p['precio'] ?></p>
-                                        <form  action="../../controladores/AgregarPedido.php" method="POST">
+                                        <form action="../../controladores/AgregarPedido.php" method="POST">
                                             <input name="precio" type="hidden" value="<?= $p['precio'] ?>">
                                             <button name="codeProducto" class="btn btn-dark" value="<?= $p['codigo_producto'] ?>">Agregar al pedido</button>
                                         </form>
                                     </div>
                                 </div>
-                                
+
                             <?php } ?>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <!-- PRODUCTOS -->
@@ -202,4 +214,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/40e29f2951.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

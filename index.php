@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/logito.png" type="image/x-icon">
 </head>
 <body style="background-image: url(img/fondo.jpg);">
     <!-- BARRA DE NAVEGACION -->
@@ -131,23 +132,7 @@
     <!-- FIN SECCION 2 -->
 
     <!-- FOOTER -->
-    <div class="container text-center  pt-5" style="margin-top: 110px; background-color: rgba(255, 255, 255, 0.55);">
-        <div class="row">
-          <div class="col-md pb-5">
-            <h2 class="display-5">BEC Market</h2>
-          </div>
-          <div class="col-md pb-5">
-                <p class="lead pb-2"><strong>NUESTRAS REDES</strong></p>
-                <a href="#"><i class="fab fa-facebook-f fs-4 text-dark me-5"></i></a>
-                <a href="#"><i class="fab fa-twitter fs-4 text-dark me-5"></i></a>
-                <a href="#"><i class="fab fa-instagram fs-4 text-dark"></i></a>
-          </div>
-          <div class="col-md pb-5">
-            <p class="lead"><strong>CONTACTO</strong></p>
-            <a href="MAILTO:contacto@example.com" class="text-decoration-none lead">contacto@example.com</a></span></p>
-          </div>
-        </div>
-    </div>
+    <?php include_once 'footer.php' ?>
     <!-- FIN FOOTER -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>

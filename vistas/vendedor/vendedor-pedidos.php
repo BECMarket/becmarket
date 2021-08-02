@@ -15,9 +15,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pedidos | BEC Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="../../img/logito.png" type="image/x-icon">
 </head>
 <body style="background-image: url(../../img/fondo.jpg);">
     <?php if (isset($_SESSION['user'])) { ?>
@@ -77,13 +78,13 @@
                             <div class="d-flex flex-row bd-highlight justify-content-center">
                                 <div class="p-2 bd-highlight">
                                     <select name="estado" class="form-select mb-3" style="max-width: 300px;">
-                                        <option value="aceptado">Aceptado</option>
-                                        <option value="en preparacion">En preparación</option>
-                                        <option value="en reparto">En reparto</option>
+                                        <option>Aceptado</option>
+                                        <option>En preparación</option>
+                                        <option>En reparto</option>
                                     </select>
                                 </div>
                                 <div class="p-2 bd-highlight">
-                                    <button type="button" class="btn btn-dark px-4">BUSCAR</button>
+                                    <button class="btn btn-dark px-4">BUSCAR</button>
                                 </div>
                             </div>
                             <p class="text-danger text-center">
@@ -179,7 +180,7 @@
                                         <form action="../../controladores/VerDetalle.php" method="POST">  
                                             <td><button name="detalle" class="btn fs-6 link-primary btn-sm text-decoration-underline" value="<?= $p['codigo_pedido'] ?>">Ver detalles</button></td>
                                         </form>
-                                        <td class="text-success"><?= ucwords($p['estado']) ?><button class="btn ms-2"><i class="far fa-edit fs-2 text-primary"></i></button></td>
+                                        <td class="text-success"><?= ucwords($b['estado']) ?><button class="btn ms-2"><i class="far fa-edit fs-2 text-primary"></i></button></td>
                                     </tr>
                                 <?php } ?>
 

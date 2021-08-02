@@ -82,6 +82,15 @@ class Pedidos{
         return $stm->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    //BUSCAR PEDIDO POR FECHA
+    public function buscarPorFecha($fecha,$negocio){
+        $stm = Conexion::conector()->prepare("SELECT * FROM pedido WHERE fecha=:A AND negociofk=:B");
+        $stm->bindParam(":A",$fecha);
+        $stm->bindParam(":B",$negocio);
+        $stm->execute();
+        return $stm->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     //CAMBIAR ESTADO DEL PEDIDO
     public function cambiarEstado($estado,$pedido){
         $stm = Conexion::conector()->prepare("UPDATE pedido SET estado=:A WHERE codigo_pedido=:B");

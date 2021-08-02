@@ -12,7 +12,7 @@
             </div>
             <div class="col-sm pb-5">
                 <p class="lead"><strong>CONTACTO</strong></p>
-                <a href="MAILTO:contacto@example.com" class="text-decoration-none lead">contacto@example.com</a></span></p>
+                <a href="MAILTO:becmarketinp@gmail.com" class="text-decoration-none lead">becmarketinp@gmail.com</a></span></p>
             </div>
         </div>
     </div>
