@@ -30,7 +30,7 @@ new Vue({
                     method:"post",
                     body:form,
                 });
-                const resp = await res.text();
+                const resp = await res.json();
                 console.log(resp);
                 if (resp.msg == "si") {
                     window.location.href = this.url + "vistas/cliente/cliente-inicio.php";
